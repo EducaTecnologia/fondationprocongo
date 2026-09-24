@@ -1,16 +1,20 @@
 import React from 'react';
 import { MapPin, CheckCircle2, Heart } from 'lucide-react';
-import { PROJECTS_DATA } from '../data/content';
-import { ProjectItem } from '../types';
+import { getTranslation } from '../data/content';
+import { ProjectItem, Language } from '../types';
 
 interface ProjectsCardsProps {
+  currentLang?: Language;
   onOpenProjectDetail?: (project: ProjectItem) => void;
   onOpenDonate?: (amount?: number) => void;
 }
 
 export const ProjectsCards: React.FC<ProjectsCardsProps> = ({
+  currentLang = 'fr',
   onOpenDonate,
 }) => {
+  const t = getTranslation(currentLang).projects;
+
   return (
     <section id="projets" className="relative py-20 sm:py-28 bg-white border-b border-slate-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,21 +23,21 @@ export const ProjectsCards: React.FC<ProjectsCardsProps> = ({
           <div className="inline-flex items-center gap-2 mb-3">
             <span className="w-8 h-[2px] bg-[#D71920]" />
             <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#1B2A6B]">
-              ACTIONS PHARES SUR LE TERRAIN
+              {t.sectionKicker}
             </span>
             <span className="w-8 h-[2px] bg-[#D71920]" />
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-display">
-            Des réalisations tangibles au service des populations
+            {t.title}
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-600 font-normal">
-            Découvrez nos opérations prioritaires menées en première ligne avec les collectivités territoriales et les comités de quartier de la RDC.
+            {t.sub}
           </p>
         </div>
 
-        {/* 4 Cards Grid: 2 on top, 2 on bottom in desktop mode */}
+        {/* 4 Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {PROJECTS_DATA.map((project, idx) => (
+          {t.items.map((project, idx) => (
             <div
               key={project.id}
               className="group rounded-3xl bg-white border border-slate-200 shadow-sm hover:border-slate-300 hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between"
@@ -82,7 +86,7 @@ export const ProjectsCards: React.FC<ProjectsCardsProps> = ({
                     <CheckCircle2 className="w-5 h-5 text-[#1B2A6B] shrink-0 mt-0.5" />
                     <div>
                       <div className="text-xs font-bold uppercase tracking-wider text-[#1B2A6B]">
-                        Bénéfice direct pour les populations
+                        {t.benefitLabel}
                       </div>
                       <p className="text-xs sm:text-sm text-slate-700 mt-1 leading-relaxed">
                         {project.impactDetail}
@@ -109,14 +113,14 @@ export const ProjectsCards: React.FC<ProjectsCardsProps> = ({
               {/* Action Footer */}
               <div className="px-6 sm:px-8 pb-6 sm:pb-8 pt-4 border-t border-slate-100 flex items-center justify-between gap-4">
                 <span className="text-xs text-slate-500 font-medium hidden sm:inline">
-                  Supervisé par la Direction Provinciale
+                  {t.supervisedBy}
                 </span>
                 <button
                   onClick={() => onOpenDonate?.(50)}
                   className="w-full sm:w-auto px-5 py-3 rounded-xl bg-[#D71920] hover:bg-[#b81218] active:scale-95 text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm ml-auto"
                 >
                   <Heart className="w-3.5 h-3.5 fill-white" />
-                  <span>Soutenir ce projet</span>
+                  <span>{t.supportBtn}</span>
                 </button>
               </div>
             </div>

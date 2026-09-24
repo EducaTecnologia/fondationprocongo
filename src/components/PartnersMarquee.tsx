@@ -1,11 +1,15 @@
 import React from 'react';
 import { Handshake } from 'lucide-react';
+import { getTranslation } from '../data/content';
+import { Language } from '../types';
 
 interface PartnersMarqueeProps {
+  currentLang?: Language;
   onOpenPartnerModal?: () => void;
 }
 
-export const PartnersMarquee: React.FC<PartnersMarqueeProps> = ({ onOpenPartnerModal }) => {
+export const PartnersMarquee: React.FC<PartnersMarqueeProps> = ({ currentLang = 'fr', onOpenPartnerModal }) => {
+  const t = getTranslation(currentLang).partners;
   const partners = [
     {
       name: 'Nike',
@@ -112,15 +116,15 @@ export const PartnersMarquee: React.FC<PartnersMarqueeProps> = ({ onOpenPartnerM
             <div className="inline-flex items-center gap-2 mb-3">
               <span className="w-8 h-[2px] bg-[#D71920]" />
               <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#1B2A6B]">
-                ILS NOUS SOUTIENNENT
+                {t.sectionKicker}
               </span>
               <span className="w-8 h-[2px] bg-[#D71920]" />
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-display">
-              Partenaires & Mécènes Internationaux
+              {t.title}
             </h2>
             <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-              De grandes institutions et entreprises de renommée mondiale s’associent aux actions prioritaires de la Fondation Pro-Congo pour accélérer le développement humain, la salubrité et la santé en RDC.
+              {t.sub}
             </p>
           </div>
 
@@ -129,7 +133,7 @@ export const PartnersMarquee: React.FC<PartnersMarqueeProps> = ({ onOpenPartnerM
             className="self-start sm:self-auto px-6 py-3.5 rounded-xl bg-[#1B2A6B] hover:bg-[#2A3EB1] text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-sm shrink-0"
           >
             <Handshake className="w-4 h-4 text-[#F7C600]" />
-            <span>Devenir mécène ou partenaire</span>
+            <span>{t.becomePartnerBtn}</span>
           </button>
         </div>
       </div>

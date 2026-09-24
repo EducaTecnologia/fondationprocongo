@@ -1,8 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapPin, Users, CheckCircle, ArrowRight, Layers, ZoomIn } from 'lucide-react';
-import { IMAGES } from '../data/content';
+import { MapPin, CheckCircle, ArrowRight, Layers } from 'lucide-react';
+import { IMAGES, getTranslation } from '../data/content';
+import { Language } from '../types';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+interface InteractiveMapProps {
+  currentLang?: Language;
+}
 
 interface LocationPin {
   id: string;
@@ -18,90 +23,43 @@ interface LocationPin {
   photo: string;
 }
 
-export const InteractiveMap: React.FC = () => {
+export const InteractiveMap: React.FC<InteractiveMapProps> = ({ currentLang = 'fr' }) => {
   const [activeLocId, setActiveLocId] = useState<string>('boma');
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<{ [key: string]: L.Marker }>({});
 
-  const locations: LocationPin[] = [
-    {
-      id: 'boma',
-      name: 'Boma',
-      zone: 'Ville historique & Port fluvial',
-      lat: -5.8500,
-      lng: 13.0500,
-      zoom: 13,
-      title: 'Opération « Boma Bunkete » & Salubrité Municipale',
-      desc: 'Quartier général des brigades civiques de la Fondation Pro-Congo. Évacuation massive des décharges sauvages, réhabilitation des collecteurs et recyclage plastique.',
-      stats: '32 000+ tonnes évacuées • 350 volontaires civiques',
-      activeInitiatives: [
-        'Collecte systématique des déchets solides ménagers',
-        'Curage des caniveaux le long des grands axes',
-        'Sensibilisation des comités de quartier'
-      ],
-      photo: IMAGES.heroAction,
-    },
-    {
-      id: 'matadi',
-      name: 'Matadi',
-      zone: 'Chef-lieu provincial & Port Maritime',
-      lat: -5.8167,
-      lng: 13.4500,
-      zoom: 13,
-      title: 'Protocole Urbain de Drainage & Protection Sanitaire',
-      desc: 'Partenariat direct avec l’Hôtel de Ville de Matadi pour stabiliser les zones d’érosion torrentielle et équiper les quais et marchés de conteneurs étanches.',
-      stats: '24 km de canaux curés • 120 bacs écologiques installés',
-      activeInitiatives: [
-        'Endiguement végétalisé des ravins',
-        'Dispositifs d’assainissement du port de Matadi',
-        'Campagnes de propreté dans les écoles communales'
-      ],
-      photo: IMAGES.heroHealth,
-    },
-    {
-      id: 'kabondo',
-      name: 'Commune de Kabondo',
-      zone: 'Boma Est',
-      lat: -5.8450,
-      lng: 13.0650,
-      zoom: 14,
-      title: 'Pôle d’Appui Communautaire & Accès à l’Eau',
-      desc: 'Réseau de bornes-fontaines communautaires d’eau potable, réhabilitation de l’école de métiers pour jeunes filles et appui nutritionnel aux orphelins.',
-      stats: '16 bornes-fontaines en service • 820 jeunes diplômés',
-      activeInitiatives: [
-        'Maintenance citoyenne des adductions d’eau',
-        'Ateliers d’artisanat et d’insertion professionnelle',
-        'Aide d’urgence aux mères isolées'
-      ],
-      photo: IMAGES.heroPeople,
-    },
-    {
-      id: 'bas-fleuve',
-      name: 'District du Bas-Fleuve',
-      zone: 'Ceinture Agro-Rurale (Lukula / Tshela)',
-      lat: -5.3833,
-      lng: 12.9500,
-      zoom: 11,
-      title: 'Souveraineté Alimentaire & Brigades Médicales',
-      desc: 'Appui logistique et semencier aux coopératives paysannes villageoises et déploiement de cliniques médicales pédiatriques mobiles.',
-      stats: '250 hectares cultivés • 180 000 rations distribuées',
-      activeInitiatives: [
-        'Multiplication de semences saines de manioc',
-        'Cliniques de dépistage pédiatrique gratuites',
-        'Distribution de farine enrichie locale'
-      ],
-      photo: IMAGES.projectAgri,
-    },
-  ];
+  const t = getTranslation(currentLang).map;
+
+  const locationCoords: Record<string, { lat: number; lng: number; zoom: number; photo: string }> = {
+    boma: { lat: -5.8500, lng: 13.0500, zoom: 13, photo: IMAGES.heroAction },
+    matadi: { lat: -5.8167, lng: 13.4500, zoom: 13, photo: IMAGES.heroHealth },
+    kabondo: { lat: -5.8450, lng: 13.0650, zoom: 14, photo: IMAGES.heroPeople },
+    'bas-fleuve': { lat: -5.3833, lng: 12.9500, zoom: 11, photo: IMAGES.projectAgri },
+  };
+
+  const locations: LocationPin[] = t.locations.map((loc) => {
+    const coords = locationCoords[loc.id] || locationCoords.boma;
+    return {
+      id: loc.id,
+      name: loc.name,
+      zone: loc.zone,
+      lat: coords.lat,
+      lng: coords.lng,
+      zoom: coords.zoom,
+      title: loc.title,
+      desc: loc.desc,
+      stats: loc.stats,
+      activeInitiatives: loc.activeInitiatives,
+      photo: coords.photo,
+    };
+  });
 
   const activeLocation = locations.find((l) => l.id === activeLocId) || locations[0];
 
-  // Initialize real interactive Leaflet Map
   useEffect(() => {
     if (!mapContainerRef.current || mapInstanceRef.current) return;
 
-    // Default center Kongo-Central
     const map = L.map(mapContainerRef.current, {
       center: [-5.8500, 13.0500],
       zoom: 12,
@@ -109,7 +67,6 @@ export const InteractiveMap: React.FC = () => {
       zoomControl: true,
     });
 
-    // High quality standard OpenStreetMap tiles (100% public, zero API key needed)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors',
       maxZoom: 19,
@@ -125,7 +82,6 @@ export const InteractiveMap: React.FC = () => {
     };
     window.addEventListener('resize', handleResize);
 
-    // Create custom pins for each location
     locations.forEach((loc) => {
       const customIcon = L.divIcon({
         className: 'custom-leaflet-marker',
@@ -172,7 +128,6 @@ export const InteractiveMap: React.FC = () => {
     };
   }, []);
 
-  // Update map viewport when active location changes
   const handleSelectLocation = (loc: LocationPin) => {
     setActiveLocId(loc.id);
     if (mapInstanceRef.current) {
@@ -194,15 +149,15 @@ export const InteractiveMap: React.FC = () => {
           <div className="inline-flex items-center gap-2 mb-3">
             <span className="w-8 h-[2px] bg-[#D71920]" />
             <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#1B2A6B]">
-              ANCRAGE GÉOGRAPHIQUE
+              {t.sectionKicker}
             </span>
             <span className="w-8 h-[2px] bg-[#D71920]" />
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-display">
-            Où nous agissons en République Démocratique du Congo
+            {t.title}
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-600">
-            Une implantation territoriale concrète au Kongo-Central, le long du majestueux fleuve Congo.
+            {t.sub}
           </p>
         </div>
 
@@ -224,23 +179,19 @@ export const InteractiveMap: React.FC = () => {
           ))}
         </div>
 
-        {/* Main Grid: Interactive Map (Left) + Details Card (Right) */}
+        {/* Main Grid: Interactive Map + Details Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left: Real Leaflet Map Container */}
           <div className="lg:col-span-7 rounded-3xl overflow-hidden border border-slate-200 bg-white shadow-lg relative min-h-[380px] lg:min-h-[500px]">
             <div ref={mapContainerRef} className="w-full h-full min-h-[380px] lg:min-h-[500px] z-10" />
 
-            {/* Map floating control overlay */}
             <div className="absolute top-4 right-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm text-xs font-semibold text-slate-700 flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5 text-[#1B2A6B]" />
-              <span>Kongo-Central • Vue Satellite & Rues</span>
+              <span>{t.activeCountPill}</span>
             </div>
           </div>
 
-          {/* Right: Active Location Details Card */}
           <div className="lg:col-span-5 rounded-3xl p-6 sm:p-8 bg-white border border-slate-200 shadow-lg flex flex-col justify-between">
             <div>
-              {/* Photo header */}
               <div className="relative h-44 rounded-2xl overflow-hidden mb-6 bg-slate-100">
                 <img
                   src={activeLocation.photo}
@@ -269,9 +220,6 @@ export const InteractiveMap: React.FC = () => {
               </p>
 
               <div className="space-y-2 mb-6">
-                <div className="text-xs font-bold uppercase tracking-wider text-[#D71920]">
-                  Interventions actives :
-                </div>
                 {activeLocation.activeInitiatives.map((init, i) => (
                   <div key={i} className="flex items-start gap-2 text-xs text-slate-700">
                     <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
@@ -288,7 +236,7 @@ export const InteractiveMap: React.FC = () => {
               }}
               className="w-full py-3 bg-[#1B2A6B] hover:bg-[#2A3EB1] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
-              <span>Déployer un projet à {activeLocation.name}</span>
+              <span>{activeLocation.name}</span>
               <ArrowRight className="w-4 h-4 text-[#F7C600]" />
             </button>
           </div>

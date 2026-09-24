@@ -1,13 +1,16 @@
 import React from 'react';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
-import { NEWS_DATA } from '../data/content';
-import { NewsItem } from '../types';
+import { getTranslation } from '../data/content';
+import { Language } from '../types';
 
 interface NewsSectionProps {
+  currentLang?: Language;
   onSelectArticle?: (articleId: string) => void;
 }
 
-export const NewsSection: React.FC<NewsSectionProps> = ({ onSelectArticle }) => {
+export const NewsSection: React.FC<NewsSectionProps> = ({ currentLang = 'fr', onSelectArticle }) => {
+  const t = getTranslation(currentLang).news;
+
   return (
     <section id="actualites" className="relative py-20 sm:py-28 bg-white border-b border-slate-200 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,20 +19,20 @@ export const NewsSection: React.FC<NewsSectionProps> = ({ onSelectArticle }) => 
           <div className="inline-flex items-center gap-2 mb-3">
             <span className="w-8 h-[2px] bg-[#D71920]" />
             <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#1B2A6B]">
-              JOURNAL DES OPÉRATIONS
+              {t.sectionKicker}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-display">
-            Dernières actualités de nos missions en RDC
+            {t.title}
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-600">
-            Suivez au jour le jour les avancées des chantiers de salubrité et les tournées de nos brigades communautaires.
+            {t.sub}
           </p>
         </div>
 
         {/* 3 News Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {NEWS_DATA.map((article) => (
+          {t.items.map((article) => (
             <article
               key={article.id}
               onClick={() => onSelectArticle?.(article.id)}
@@ -75,7 +78,7 @@ export const NewsSection: React.FC<NewsSectionProps> = ({ onSelectArticle }) => 
               </div>
 
               <div className="p-6 pt-0 border-t border-slate-100 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-[#D71920]">
-                <span>Lire la dépêche</span>
+                <span>{t.readArticle}</span>
                 <ArrowRight className="w-4 h-4 text-[#D71920] group-hover:translate-x-1 transition-transform" />
               </div>
             </article>

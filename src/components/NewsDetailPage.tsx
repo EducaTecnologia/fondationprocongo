@@ -7,14 +7,10 @@ import {
   Check,
   Heart,
   ChevronRight,
-  Sparkles,
-  MapPin,
-  Building2,
-  Quote,
   ShieldCheck,
   CheckCircle2
 } from 'lucide-react';
-import { NEWS_DATA } from '../data/content';
+import { getTranslation } from '../data/content';
 import { Language } from '../types';
 
 interface NewsDetailPageProps {
@@ -33,9 +29,12 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
   onOpenDonate,
 }) => {
   const [copied, setCopied] = useState(false);
+  const trans = getTranslation(currentLang);
+  const t = trans.newsDetail;
+  const allArticles = trans.news.items;
 
-  const article = NEWS_DATA.find((item) => item.id === articleId) || NEWS_DATA[0];
-  const relatedArticles = NEWS_DATA.filter((item) => item.id !== article.id);
+  const article = allArticles.find((item) => item.id === articleId) || allArticles[0];
+  const relatedArticles = allArticles.filter((item) => item.id !== article.id);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -49,7 +48,7 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-0 pb-20">
-      {/* 1. Article Hero Banner with transparent navbar floating above */}
+      {/* 1. Article Hero Banner */}
       <div className="relative w-full min-h-[440px] sm:min-h-[500px] flex items-end overflow-hidden bg-slate-950">
         <img
           src={article.image}
@@ -65,23 +64,23 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
               className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-200 hover:text-white bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full backdrop-blur-xs transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4 text-[#D71920]" />
-              <span>Retour au journal des opérations</span>
+              <span>{t.backToNews}</span>
             </button>
 
             <button
               onClick={handleCopyLink}
               className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-white/10 hover:bg-white/20 px-3.5 py-2 rounded-full backdrop-blur-xs transition-colors cursor-pointer"
-              title="Copier le lien"
+              title={t.share}
             >
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-300">Lien copié !</span>
+                  <span className="text-emerald-300">{t.linkCopied}</span>
                 </>
               ) : (
                 <>
                   <Share2 className="w-3.5 h-3.5 text-slate-300" />
-                  <span className="hidden sm:inline">Partager</span>
+                  <span className="hidden sm:inline">{t.share}</span>
                 </>
               )}
             </button>
@@ -97,7 +96,7 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
             </span>
             <span className="flex items-center gap-1.5 text-xs font-medium text-slate-200 bg-white/15 backdrop-blur-xs px-3 py-1 rounded-full">
               <Clock className="w-3.5 h-3.5 text-slate-300" />
-              <span>{article.readTime} de lecture</span>
+              <span>{article.readTime}</span>
             </span>
           </div>
 
@@ -125,49 +124,35 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
               </p>
             ))}
 
-            {/* Additional In-Depth Editorial Context */}
+            {/* Additional Editorial Context */}
             <div className="my-8 p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#1B2A6B]">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Rapport d'activité & Transparence terrain</span>
+                <span>{trans.mission.ngoLegalCert}</span>
               </div>
-              <p className="text-sm text-slate-700 leading-relaxed">
-                Chaque déploiement fait l’objet d’un inventaire précis des moyens matériels et humains engagés. Les chefs de quartier et les autorités municipales participent directement à la validation des zones traitées et à la pérennisation des ouvrages réhabilités.
-              </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 bg-white p-3 rounded-xl border border-slate-200">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Traçabilité complète des ressources allouées</span>
+                  <span>Fondation Pro-Congo — RDC</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 bg-white p-3 rounded-xl border border-slate-200">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span>Emploi local et valorisation citoyenne</span>
+                  <span>{trans.brandTagline}</span>
                 </div>
               </div>
-            </div>
-
-            {/* Quote Block */}
-            <div className="border-l-4 border-[#1B2A6B] bg-blue-50/70 p-6 rounded-r-2xl my-8">
-              <Quote className="w-6 h-6 text-[#1B2A6B] mb-2 opacity-60" />
-              <blockquote className="text-base sm:text-lg font-semibold text-slate-900 italic leading-snug">
-                « Notre boussole reste et restera toujours l'impact réel et visible dans la vie quotidienne des familles de notre pays. »
-              </blockquote>
-              <span className="block mt-3 text-xs font-bold uppercase tracking-wider text-[#1B2A6B]">
-                — Direction de la Communication, Fondation Pro-Congo
-              </span>
             </div>
 
             {/* Action Callout inside Article */}
             <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0B1030] to-[#1B2A6B] text-white my-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
               <div className="space-y-1 text-center sm:text-left">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#F7C600]">
-                  AGIR SUR LE TERRAIN
+                  PRO-CONGO
                 </span>
                 <h4 className="text-xl sm:text-2xl font-black font-display">
-                  Soutenez ces missions humanitaires
+                  {t.supportTitle}
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-300 max-w-md">
-                  Votre don finance directement le carburant des camions, les kits de santé et l'équipement de nos équipes.
+                  {t.supportDesc}
                 </p>
               </div>
 
@@ -176,21 +161,21 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
                 className="px-6 py-3.5 bg-[#D71920] hover:bg-[#b81218] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-lg transition-all flex items-center gap-2 shrink-0 cursor-pointer"
               >
                 <Heart className="w-4 h-4 fill-white" />
-                <span>Faire un don ($35)</span>
+                <span>{t.donateCta}</span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Other Operations Dispatches / Related Articles */}
+        {/* Related Articles */}
         <div className="mt-14">
           <div className="flex items-center justify-between mb-6">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#D71920] block mb-1">
-                Dépêches Récentes
+                {trans.news.sectionKicker}
               </span>
               <h3 className="text-xl sm:text-2xl font-black font-display text-slate-900">
-                Poursuivre la lecture des opérations
+                {t.relatedTitle}
               </h3>
             </div>
 
@@ -198,7 +183,7 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
               onClick={onBackToNews}
               className="text-xs font-bold uppercase tracking-wider text-[#1B2A6B] hover:text-[#D71920] transition-colors cursor-pointer flex items-center gap-1"
             >
-              <span>Voir tout</span>
+              <span>{t.backToNews}</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -236,7 +221,7 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#D71920]">
-                  <span>Lire la suite</span>
+                  <span>{trans.news.readArticle}</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
@@ -251,7 +236,7 @@ export const NewsDetailPage: React.FC<NewsDetailPageProps> = ({
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Retour à la page principale</span>
+            <span>{t.backToNews}</span>
           </button>
         </div>
       </article>

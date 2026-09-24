@@ -2,7 +2,7 @@ import React from 'react';
 import { Logo } from './Logo';
 import { Heart, ShieldCheck, ArrowUp } from 'lucide-react';
 import { Language } from '../types';
-import { I18N_STRINGS } from '../data/content';
+import { getTranslation } from '../data/content';
 
 interface FooterProps {
   currentLang: Language;
@@ -10,7 +10,10 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => {
-  const t = I18N_STRINGS[currentLang].nav;
+  const trans = getTranslation(currentLang);
+  const tNav = trans.nav;
+  const tFoot = trans.footer;
+  const tPillars = trans.pillars.items;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -27,25 +30,25 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
           <div className="lg:col-span-4 space-y-4">
             <Logo variant="dark" size="md" />
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
-              Organisation non gouvernementale dédiée à l’assistance sociale, à la santé publique, à l’assainissement urbain et au développement durable en République Démocratique du Congo.
+              {tFoot.desc}
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs text-[#F7C600] font-semibold">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Transparence & conformité légale certifiée en RDC</span>
+              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>{tFoot.certText}</span>
             </div>
 
-            {/* Social Media Links: X, Facebook, Instagram, TikTok */}
+            {/* Social Media Links */}
             <div className="pt-3">
               <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
-                Suivez nos opérations sur les réseaux
+                {tFoot.followUs}
               </span>
               <div className="flex items-center gap-2.5">
-                {/* X (formerly Twitter) */}
+                {/* X */}
                 <a
                   href="https://x.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Suivre la Fondation Pro-Congo sur X"
+                  aria-label="X (Twitter)"
                   className="w-9 h-9 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 hover:border-white/25 flex items-center justify-center text-slate-300 hover:text-white transition-all hover:scale-105"
                   title="X (Twitter)"
                 >
@@ -59,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Suivre la Fondation Pro-Congo sur Facebook"
+                  aria-label="Facebook"
                   className="w-9 h-9 rounded-xl bg-white/5 hover:bg-[#1877F2]/20 border border-white/10 hover:border-[#1877F2]/40 flex items-center justify-center text-slate-300 hover:text-[#1877F2] transition-all hover:scale-105"
                   title="Facebook"
                 >
@@ -73,7 +76,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Suivre la Fondation Pro-Congo sur Instagram"
+                  aria-label="Instagram"
                   className="w-9 h-9 rounded-xl bg-white/5 hover:bg-[#E4405F]/20 border border-white/10 hover:border-[#E4405F]/40 flex items-center justify-center text-slate-300 hover:text-[#E4405F] transition-all hover:scale-105"
                   title="Instagram"
                 >
@@ -89,7 +92,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
                   href="https://tiktok.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Suivre la Fondation Pro-Congo sur TikTok"
+                  aria-label="TikTok"
                   className="w-9 h-9 rounded-xl bg-white/5 hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/40 flex items-center justify-center text-slate-300 hover:text-cyan-400 transition-all hover:scale-105"
                   title="TikTok"
                 >
@@ -104,29 +107,29 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
           {/* Col 2: Navigation Links (Span 3) */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Navigation Rapide
+              {tFoot.quickLinksTitle}
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
-                <a href="#accueil" className="hover:text-white transition-colors">{t.home}</a>
+                <a href="#accueil" className="hover:text-white transition-colors">{tNav.home}</a>
               </li>
               <li>
-                <a href="#apropos" className="hover:text-white transition-colors">{t.about}</a>
+                <a href="#apropos" className="hover:text-white transition-colors">{tNav.about}</a>
               </li>
               <li>
-                <a href="#programmes" className="hover:text-white transition-colors">{t.programs}</a>
+                <a href="#programmes" className="hover:text-white transition-colors">{tNav.programs}</a>
               </li>
               <li>
-                <a href="#projets" className="hover:text-white transition-colors">{t.projects}</a>
+                <a href="#projets" className="hover:text-white transition-colors">{tNav.projects}</a>
               </li>
               <li>
-                <a href="#territoire" className="hover:text-white transition-colors">{t.locations}</a>
+                <a href="#territoire" className="hover:text-white transition-colors">{tNav.locations}</a>
               </li>
               <li>
-                <a href="#equipe" className="hover:text-white transition-colors">{t.team}</a>
+                <a href="#equipe" className="hover:text-white transition-colors">{tNav.team}</a>
               </li>
               <li>
-                <a href="#actualites" className="hover:text-white transition-colors">{t.news}</a>
+                <a href="#actualites" className="hover:text-white transition-colors">{tNav.news}</a>
               </li>
             </ul>
           </div>
@@ -134,31 +137,33 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
           {/* Col 3: Programs & Pillars (Span 3) */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Nos Piliers
+              {tFoot.programsTitle}
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
-              <li>Opération Boma Bunkete</li>
-              <li>Assainissement Urbain Matadi</li>
-              <li>Centres Sociaux de Kabondo</li>
-              <li>Souveraineté Alimentaire Bas-Fleuve</li>
-              <li>Cliniques Pédiatriques Mobiles</li>
+              {tPillars.map((p) => (
+                <li key={p.id}>
+                  <a href="#programmes" className="hover:text-white transition-colors">
+                    {p.title}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Col 4: Quick Action (Span 2) */}
           <div className="lg:col-span-2 space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              Agir Immédiatement
+              {tFoot.donateBoxTitle}
             </h4>
             <button
               onClick={onOpenDonate}
               className="w-full py-3 bg-[#D71920] hover:bg-[#b81218] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <Heart className="w-3.5 h-3.5 fill-white" />
-              <span>{t.donate}</span>
+              <span>{tFoot.donateBoxBtn}</span>
             </button>
             <p className="text-[11px] text-slate-400 leading-tight">
-              Chaque contribution est affectée directement aux chantiers de terrain en RDC.
+              {tFoot.donateBoxDesc}
             </p>
           </div>
         </div>
@@ -166,19 +171,19 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
         {/* Bottom Line: Copyright, Tagline & Back to Top */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div>
-            © {new Date().getFullYear()} Fondation Pro-Congo. Tous droits réservés.
+            {tFoot.copyright}
           </div>
 
           <div className="font-display font-bold text-[#D71920] text-sm tracking-tight">
-            « En faveur du peuple Congolais »
+            « {trans.brandTagline} »
           </div>
 
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
-            aria-label="Retourner en haut de page"
+            className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            aria-label={tFoot.backToTop}
           >
-            <span>Haut de page</span>
+            <span>{tFoot.backToTop}</span>
             <ArrowUp className="w-3.5 h-3.5 text-[#F7C600]" />
           </button>
         </div>

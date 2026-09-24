@@ -1,12 +1,18 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { IMPACT_STATS } from '../data/content';
+import { getTranslation } from '../data/content';
 import { Users, Trash2, Building2, MapPin } from 'lucide-react';
+import { Language } from '../types';
 
-export const ImpactNumbers: React.FC = () => {
+interface ImpactNumbersProps {
+  currentLang?: Language;
+}
+
+export const ImpactNumbers: React.FC<ImpactNumbersProps> = ({ currentLang = 'fr' }) => {
   const [hasAnimated, setHasAnimated] = useState(false);
   const [counts, setCounts] = useState<number[]>([0, 0, 0, 0]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  const t = getTranslation(currentLang).impactStats;
   const icons = [Users, Trash2, Building2, MapPin];
 
   useEffect(() => {
@@ -26,12 +32,12 @@ export const ImpactNumbers: React.FC = () => {
             const easeProgress = 1 - Math.pow(1 - progress, 4);
 
             setCounts(
-              IMPACT_STATS.map((stat) => Math.round(stat.value * easeProgress))
+              t.items.map((stat) => Math.round(stat.value * easeProgress))
             );
 
             if (frame === totalFrames) {
               clearInterval(timer);
-              setCounts(IMPACT_STATS.map((stat) => stat.value));
+              setCounts(t.items.map((stat) => stat.value));
             }
           }, frameDuration);
         }
@@ -44,7 +50,16 @@ export const ImpactNumbers: React.FC = () => {
     }
 
     return () => observer.disconnect();
-  }, [hasAnimated]);
+  }, [hasAnimated, t.items]);
+
+  const formatNumber = (val: number) => {
+    if (currentLang === 'en') return val.toLocaleString('en-US');
+    if (currentLang === 'pt') return val.toLocaleString('pt-BR');
+    if (currentLang === 'es') return val.toLocaleString('es-ES');
+    if (currentLang === 'ar') return val.toLocaleString('ar-EG');
+    if (currentLang === 'zh') return val.toLocaleString('zh-CN');
+    return val.toLocaleString('fr-FR');
+  };
 
   return (
     <section
@@ -57,23 +72,23 @@ export const ImpactNumbers: React.FC = () => {
           <div className="inline-flex items-center gap-2 mb-2">
             <span className="w-6 h-[2px] bg-[#D71920]" />
             <span className="text-xs sm:text-sm font-bold tracking-widest uppercase text-[#1B2A6B]">
-              PREUVES DE TERRAIN
+              {t.sectionKicker}
             </span>
             <span className="w-6 h-[2px] bg-[#D71920]" />
           </div>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight font-display">
-            L’impact mesurable de notre action en RDC
+            {t.title}
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-600">
-            Des résultats concrets certifiés par nos relevés opérationnels municipaux au Kongo-Central.
+            {t.sub}
           </p>
         </div>
 
         {/* 4 Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {IMPACT_STATS.map((stat, idx) => {
-            const Icon = icons[idx];
-            const currentCount = counts[idx];
+          {t.items.map((stat, idx) => {
+            const Icon = icons[idx % icons.length];
+            const currentCount = counts[idx] || stat.value;
             return (
               <div
                 key={stat.id}
@@ -90,7 +105,7 @@ export const ImpactNumbers: React.FC = () => {
 
                 <div>
                   <div className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display tracking-tight tabular-nums">
-                    {currentCount.toLocaleString('fr-FR')}
+                    {formatNumber(currentCount)}
                     <span className="text-[#D71920]">{stat.suffix}</span>
                   </div>
                   <h3 className="mt-2 text-sm sm:text-base font-bold text-slate-800 font-display">{stat.label}</h3>

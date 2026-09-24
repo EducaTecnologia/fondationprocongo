@@ -8,12 +8,9 @@ import {
   Check,
   Copy,
   ArrowLeft,
-  ShieldCheck,
-  HelpCircle,
-  FileText,
-  DollarSign
+  FileText
 } from 'lucide-react';
-import { IMAGES } from '../data/content';
+import { IMAGES, getTranslation } from '../data/content';
 import { Language } from '../types';
 
 interface OtherWaysToDonatePageProps {
@@ -31,6 +28,8 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
   const [selectedSimAmount, setSelectedSimAmount] = useState<number>(35);
   const [simFrequency, setSimFrequency] = useState<'monthly' | 'once'>('monthly');
 
+  const t = getTranslation(currentLang).otherWaysToDonate;
+
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
     setCopiedKey(key);
@@ -38,6 +37,37 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
   };
 
   const getImpact = (amt: number) => {
+    if (currentLang === 'en') {
+      if (amt <= 20) return 'Guarantees protective gear and tools for 2 public sanitation volunteers in Boma.';
+      if (amt <= 50) return 'Funds primary pediatric medical care and fortified porridge for 5 mothers and infants.';
+      if (amt <= 100) return 'Enables dredging and rehabilitation of 150 linear meters of vital drainage canals in Matadi.';
+      return 'Fully finances a mobile medical mission to an isolated rural village in Bas-Fleuve.';
+    }
+    if (currentLang === 'pt') {
+      if (amt <= 20) return 'Garante equipamentos de proteção individual para 2 voluntários de limpeza pública em Boma.';
+      if (amt <= 50) return 'Financia atendimento pediátrico básico e farinha enriquecida para 5 mães e recém-nascidos.';
+      if (amt <= 100) return 'Permite o desassoreamento e obras em 150 metros de galerias de drenagem pluvial em Matadi.';
+      return 'Cobre integralmente uma missão de clínica móvel a um vilarejo isolado no Bas-Fleuve.';
+    }
+    if (currentLang === 'es') {
+      if (amt <= 20) return 'Garantiza equipo de protección completo para 2 brigadistas de limpieza urbana en Boma.';
+      if (amt <= 50) return 'Financia atención médica pediátrica y papilla nutricional para 5 madres e infantes.';
+      if (amt <= 100) return 'Permite el desazolve y saneamiento de 150 metros lineales de canales pluviales en Matadi.';
+      return 'Financia una brigada médica móvil completa para una comunidad aislada de Bas-Fleuve.';
+    }
+    if (currentLang === 'ar') {
+      if (amt <= 20) return 'يوفر معدات الوقاية الشخصية لمتطوعين اثنين في فرق النظافة العامة في بوما.';
+      if (amt <= 50) return 'يمول الرعاية الطبية للأطفال والدقيق المقوى لـ 5 أمهات ومواليدهن.';
+      if (amt <= 100) return 'يتيح تجريف وتأهيل 150 متراً طولياً من قنوات تصريف السيول في ماتادي.';
+      return 'يمول قافلة طبية متكاملة لقرية معزولة في منطقة باس-فلوف.';
+    }
+    if (currentLang === 'zh') {
+      if (amt <= 20) return '为博马市2名前线环卫青年志愿者配备全套专业防护装备。';
+      if (amt <= 50) return '为5位母亲和婴幼儿提供基层儿科诊疗与强化营养粥粉。';
+      if (amt <= 100) return '用于马塔迪市150米关键雨水排涝明渠的彻底清淤与治理。';
+      return '全额资助流动医疗巡回车深入下河区偏远孤立村落开展义诊。';
+    }
+    // French default
     if (amt <= 20) return 'Garantit l’équipement de protection complet pour 2 volontaires de salubrité publique à Boma.';
     if (amt <= 50) return 'Finance les soins pédiatriques de base et la farine enrichie pour 5 mères et nourrissons.';
     if (amt <= 100) return 'Permet la réhabilitation et l’assainissement de 150 mètres linéaires de canal de drainage à Matadi.';
@@ -53,7 +83,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pt-0">
-      {/* 1. High Impact Hero Banner */}
+      {/* 1. Hero Banner */}
       <div className="relative w-full min-h-[500px] sm:min-h-[560px] flex items-center justify-center overflow-hidden">
         <img
           src={IMAGES.heroPeople}
@@ -68,19 +98,19 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full mb-6 transition-colors cursor-pointer backdrop-blur-xs"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Retour à l’accueil</span>
+            <span>{t.backHome}</span>
           </button>
 
           <div className="inline-block px-3.5 py-1 rounded-full bg-[#D71920]/90 text-white text-xs font-bold uppercase tracking-wider mb-4">
-            Modalités de Don & Soutien
+            {t.badge}
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight leading-tight max-w-4xl mx-auto mb-6">
-            Chaque geste transforme concrètement une vie en RDC.
+            {t.title}
           </h1>
 
           <p className="text-base sm:text-lg text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed mb-8">
-            Que vous soyez en République Démocratique du Congo, dans la diaspora en Amérique du Nord, en Europe ou partout dans le monde, voici l'ensemble des canaux directs et transparents pour agir avec nous.
+            {t.sub}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -89,13 +119,13 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
               className="px-8 py-3.5 bg-[#D71920] hover:bg-[#b81218] text-white font-extrabold text-sm uppercase tracking-wider rounded-xl shadow-lg transition-all flex items-center gap-2 cursor-pointer"
             >
               <Heart className="w-4 h-4 fill-white" />
-              <span>Simuler un don ($35)</span>
+              <span>{t.simBtn}</span>
             </button>
             <a
               href="#mobile-money"
               className="px-6 py-3.5 bg-white/15 hover:bg-white/25 text-white font-bold text-sm uppercase tracking-wider rounded-xl border border-white/20 backdrop-blur-sm transition-all"
             >
-              Voir les comptes & USSD
+              {t.exploreBtn}
             </a>
           </div>
         </div>
@@ -107,10 +137,10 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#D71920]">
-                Calculateur d’Impact
+                {t.simTitle}
               </span>
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-display">
-                Votre contribution au quotidien
+                {t.simSub}
               </h2>
             </div>
 
@@ -124,7 +154,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                Mensuel (Pérenne)
+                {t.monthly}
               </button>
               <button
                 onClick={() => setSimFrequency('once')}
@@ -134,7 +164,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                Don Unique
+                {t.once}
               </button>
             </div>
           </div>
@@ -164,7 +194,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
               </div>
               <div className="text-xs sm:text-sm text-slate-700">
                 <strong className="text-slate-900 block mb-0.5">
-                  Avec ${selectedSimAmount}{simFrequency === 'monthly' ? '/mois' : ''} :
+                  {t.impactLabel} ${selectedSimAmount}
                 </strong>
                 {getImpact(selectedSimAmount)}
               </div>
@@ -183,16 +213,16 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
             </div>
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-red-600">
-                Option Nationale RDC
+                RDC & Afrique Centrale
               </span>
               <h3 className="text-2xl font-bold text-slate-900 font-display">
-                1. Mobile Money (M-Pesa, Orange Money, Airtel Money)
+                {t.mobileMoneyTitle}
               </h3>
             </div>
           </div>
 
           <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-            Pour les donateurs et sympathisants résidant en République Démocratique du Congo, le Mobile Money est le moyen le plus rapide, direct et sans intermédiaires.
+            {t.mobileMoneyDesc}
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -208,7 +238,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                   +243 81 243 0001
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  USSD : Tapez <strong>*111#</strong> &gt; Paiement &gt; Fondation Pro-Congo
+                  USSD : Tapez <strong>*111#</strong> &gt; Paiement &gt; Pro-Congo
                 </div>
               </div>
               <button
@@ -216,7 +246,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 className="mt-4 w-full py-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 {copiedKey === 'mpesa' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedKey === 'mpesa' ? 'Copié !' : 'Copier le numéro'}</span>
+                <span>{copiedKey === 'mpesa' ? t.copiedLabel : t.copyLabel}</span>
               </button>
             </div>
 
@@ -232,7 +262,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                   445 210
                 </div>
                 <div className="text-[11px] text-slate-500">
-                  USSD : Tapez <strong>*144#</strong> &gt; Partenaires &gt; Code 445210
+                  USSD : Tapez <strong>*144#</strong> &gt; Code 445210
                 </div>
               </div>
               <button
@@ -240,7 +270,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 className="mt-4 w-full py-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 {copiedKey === 'orange' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedKey === 'orange' ? 'Copié !' : 'Copier le code'}</span>
+                <span>{copiedKey === 'orange' ? t.copiedLabel : t.copyLabel}</span>
               </button>
             </div>
 
@@ -264,7 +294,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 className="mt-4 w-full py-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 {copiedKey === 'airtel' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedKey === 'airtel' ? 'Copié !' : 'Copier le numéro'}</span>
+                <span>{copiedKey === 'airtel' ? t.copiedLabel : t.copyLabel}</span>
               </button>
             </div>
           </div>
@@ -281,25 +311,25 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 Paiement Sécurisé En Ligne
               </span>
               <h3 className="text-2xl font-bold text-slate-900 font-display">
-                2. Carte Bancaire (Visa, MasterCard, PayPal)
+                {t.cardsTitle}
               </h3>
             </div>
           </div>
 
           <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-            Recommandé pour les donateurs internationaux, les membres de la diaspora et les soutiens en Amérique du Nord ou en Europe. Cryptage SSL 256 bits et reçu fiscal téléchargeable instantanément.
+            {t.cardsDesc}
           </p>
 
           <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-900 to-[#1B2A6B] text-white flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="space-y-1 text-center sm:text-left">
-              <div className="text-lg font-bold">Payer par Carte de Crédit ou Débit</div>
-              <div className="text-xs text-blue-200">Visa • MasterCard • American Express • PayPal</div>
+              <div className="text-lg font-bold">Visa • MasterCard • PayPal</div>
+              <div className="text-xs text-blue-200">{t.secureNote}</div>
             </div>
             <button
-              onClick={scrollToSimulateur}
+              onClick={() => onOpenDonateModal(selectedSimAmount)}
               className="px-8 py-3.5 bg-[#D71920] hover:bg-[#b81218] text-white font-extrabold text-sm uppercase tracking-wider rounded-xl shadow-lg transition-all cursor-pointer whitespace-nowrap"
             >
-              Simuler & configurer ce don
+              {t.donateNowBtn} (${selectedSimAmount})
             </button>
           </div>
         </div>
@@ -315,10 +345,14 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 Comptes Bancaires Officiels
               </span>
               <h3 className="text-2xl font-bold text-slate-900 font-display">
-                3. Virement Bancaire (RDC & International)
+                {t.bankTransferTitle}
               </h3>
             </div>
           </div>
+
+          <p className="text-sm text-slate-600 mb-6 leading-relaxed">
+            {t.bankTransferDesc}
+          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Rawbank DRC */}
@@ -340,7 +374,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 className="w-full py-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 {copiedKey === 'rawbank' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedKey === 'rawbank' ? 'Coordonnées copiées !' : 'Copier l’IBAN Rawbank'}</span>
+                <span>{copiedKey === 'rawbank' ? t.copiedLabel : `${t.copyLabel} (Rawbank RDC)`}</span>
               </button>
             </div>
 
@@ -364,7 +398,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 className="w-full py-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg text-xs font-bold text-slate-700 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 {copiedKey === 'wellsfargo' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copiedKey === 'wellsfargo' ? 'Coordonnées copiées !' : 'Copier les détails USA'}</span>
+                <span>{copiedKey === 'wellsfargo' ? t.copiedLabel : `${t.copyLabel} (USA Atlanta)`}</span>
               </button>
             </div>
           </div>
@@ -378,17 +412,17 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 <Gift className="w-5 h-5" />
               </div>
               <h4 className="text-lg font-bold text-slate-900 font-display mb-2">
-                4. Mécénat d’Entreprise & RSE
+                {t.taxReceiptTitle}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                Associez la responsabilité sociétale de votre entreprise à l’Opération Boma Bunkete ou à nos cliniques de brousse. Nous concevons des conventions sur-mesure avec rapport d’impact audité.
+                {t.taxReceiptDesc}
               </p>
             </div>
             <a
-              href="mailto:direction@pro-congo.org?subject=Partenariat%20RSE%20Entreprise"
+              href="mailto:contact@fondationprocongo.org"
               className="py-2.5 px-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold text-center transition-colors"
             >
-              Contacter le bureau partenariats
+              contact@fondationprocongo.org
             </a>
           </div>
 
@@ -398,17 +432,17 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
                 <FileText className="w-5 h-5" />
               </div>
               <h4 className="text-lg font-bold text-slate-900 font-display mb-2">
-                5. Dons en Matériel & Équipements
+                {t.inKindTitle}
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                Nous réceptionnons des camions bennes, des brouettes, des motopompes, des médicaments essentiels pédiatriques et des semences maraîchères certifiées pour nos pôles au Kongo-Central.
+                {t.inKindDesc}
               </p>
             </div>
             <a
-              href="mailto:logistique@pro-congo.org?subject=Don%20en%20Nature%20Equipement"
+              href="mailto:contact@fondationprocongo.org?subject=Don%20en%20Nature"
               className="py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded-xl text-xs font-bold text-center transition-colors"
             >
-              Proposer un don matériel
+              {t.inKindBtn}
             </a>
           </div>
         </div>
@@ -420,7 +454,7 @@ export const OtherWaysToDonatePage: React.FC<OtherWaysToDonatePageProps> = ({
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Revenir au site principal</span>
+            <span>{t.backHome}</span>
           </button>
         </div>
       </div>

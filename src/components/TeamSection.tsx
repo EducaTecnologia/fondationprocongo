@@ -1,14 +1,19 @@
 import React from 'react';
 import { MapPin, Quote, Shield, CheckCircle2, Globe, Award } from 'lucide-react';
-import { TEAM_MEMBERS } from '../data/content';
+import { getTranslation } from '../data/content';
+import { Language } from '../types';
 
-export const TeamSection: React.FC = () => {
-  const president = TEAM_MEMBERS[0];
-  const directors = TEAM_MEMBERS.slice(1);
+interface TeamSectionProps {
+  currentLang?: Language;
+}
+
+export const TeamSection: React.FC<TeamSectionProps> = ({ currentLang = 'fr' }) => {
+  const t = getTranslation(currentLang).team;
+  const president = t.members[0];
+  const directors = t.members.slice(1);
 
   return (
     <section id="equipe" className="relative py-20 sm:py-28 bg-slate-50 border-b border-slate-200 overflow-hidden">
-      {/* Background Decorative Pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#1B2A6B_1px,transparent_1px)] [background-size:24px_24px]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,18 +22,18 @@ export const TeamSection: React.FC = () => {
           <div className="inline-flex items-center gap-2 mb-3">
             <span className="w-8 h-[2.5px] bg-[#D71920] rounded-full" />
             <span className="text-xs sm:text-sm font-extrabold tracking-widest uppercase text-[#1B2A6B]">
-              GOUVERNANCE & DIRECTION
+              {t.sectionKicker}
             </span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight font-display">
-            Une équipe engagée au service du peuple
+            {t.title}
           </h2>
           <p className="mt-3.5 text-base sm:text-lg text-slate-600 leading-relaxed">
-            Une gouvernance d’excellence alliant le commandement opérationnel direct sur le terrain en RDC et des relais stratégiques internationaux (États-Unis, Brésil, Espagne, Japon).
+            {t.sub}
           </p>
         </div>
 
-        {/* 1. Featured Executive Card (Joe Nyakeru - President & CEO) */}
+        {/* 1. Featured Executive Card (President) */}
         {president && (
           <div className="mb-10 sm:mb-14 rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-10 shadow-xl shadow-slate-200/50 hover:border-slate-300 transition-all duration-300">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
@@ -40,10 +45,9 @@ export const TeamSection: React.FC = () => {
                     alt={president.name}
                     className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   />
-                  {/* Status Overlay Badge */}
                   <div className="absolute bottom-3 left-3 bg-[#0A1938]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold text-[#F7C600] flex items-center gap-2 shadow-lg border border-white/10">
                     <Shield className="w-3.5 h-3.5 text-[#F7C600]" />
-                    <span>Présidence Exécutive</span>
+                    <span>{t.presidentCardBadge}</span>
                   </div>
                 </div>
               </div>
@@ -60,7 +64,7 @@ export const TeamSection: React.FC = () => {
                   </span>
                   <span className="flex items-center gap-1.5 text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full font-semibold border border-emerald-200">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Mandat Actif</span>
+                    <span>{t.activeMandate}</span>
                   </span>
                 </div>
 
@@ -70,7 +74,7 @@ export const TeamSection: React.FC = () => {
                   </h3>
                   <div className="flex items-center gap-2 mt-1 text-sm font-semibold text-[#1B2A6B]">
                     <Award className="w-4 h-4 text-[#F7C600]" />
-                    <span>Fondation Pro-Congo — Leadership & Vision Stratégique</span>
+                    <span>{t.strategicVisionSubtitle}</span>
                   </div>
                 </div>
 
@@ -89,10 +93,10 @@ export const TeamSection: React.FC = () => {
           </div>
         )}
 
-        {/* 2. Executive Directors (Exactly 3 Members Grid: COO, CMO, CSO) */}
+        {/* 2. Executive Directors */}
         <div>
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Direction Opérationnelle & Pôles Internationaux</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t.directorsHeader}</span>
             <div className="h-[1px] flex-1 bg-slate-200" />
           </div>
 
@@ -111,7 +115,6 @@ export const TeamSection: React.FC = () => {
                       className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
-                    {/* Location Badge */}
                     <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#0A1938]/85 backdrop-blur-md px-3 py-1.5 rounded-xl text-[11px] font-semibold text-white flex items-center justify-between border border-white/10 shadow-md">
                       <div className="flex items-center gap-1.5 truncate">
                         <MapPin className="w-3.5 h-3.5 text-[#F7C600] shrink-0" />
@@ -121,7 +124,6 @@ export const TeamSection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Role and Title */}
                   <div className="mb-2">
                     <span className="inline-block text-xs font-black uppercase tracking-wider text-[#D71920] bg-red-50 border border-red-100 px-2.5 py-0.5 rounded-md">
                       {member.role}
@@ -137,7 +139,6 @@ export const TeamSection: React.FC = () => {
                   </p>
                 </div>
 
-                {/* Quote Box */}
                 {member.quote && (
                   <div className="pt-3.5 mt-auto border-t border-slate-100 text-xs text-slate-600 italic bg-slate-50/70 p-3 rounded-xl flex items-start gap-2">
                     <Quote className="w-3.5 h-3.5 text-[#1B2A6B] shrink-0 mt-0.5" />

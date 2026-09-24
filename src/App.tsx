@@ -48,6 +48,16 @@ export default function App() {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [activePage]);
 
+  // Set document language and direction
+  useEffect(() => {
+    document.documentElement.lang = currentLang;
+    if (currentLang === 'ar') {
+      document.documentElement.dir = 'rtl';
+    } else {
+      document.documentElement.dir = 'ltr';
+    }
+  }, [currentLang]);
+
   // Initialize Lenis smooth scroll
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -86,9 +96,9 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-[#D71920] selection:text-white">
       {/* 1. Preloader with Tricolor DRC Map Contour */}
-      <Preloader onFinish={() => window.scrollTo(0, 0)} />
+      <Preloader currentLang={currentLang} onFinish={() => window.scrollTo(0, 0)} />
 
-      {/* 2. Top Navigation Bar (floating over hero, language selector with flag dropdown, enxuto menu) */}
+      {/* 2. Top Navigation Bar */}
       <Navbar
         currentLang={currentLang}
         onSelectLang={setCurrentLang}
@@ -133,47 +143,52 @@ export default function App() {
             onOpenDonate={() => handleOpenDonate(50)}
           />
 
-          {/* 4. Notre Engagement en RDC / 4 Piliers d'intégrité (Clean light theme) */}
+          {/* 4. Notre Engagement en RDC / 4 Piliers d'intégrité */}
           <MissionVision currentLang={currentLang} />
 
           {/* 5. Quantitative Impact Numbers */}
-          <ImpactNumbers />
+          <ImpactNumbers currentLang={currentLang} />
 
-          {/* 6. Domaines d'Intervention (Enhanced interactive cards + photo modal) */}
+          {/* 6. Domaines d'Intervention */}
           <PillarsSection
             currentLang={currentLang}
             onOpenDonate={handleOpenDonate}
           />
 
-          {/* 7. Frontline Activism Impact Block (The Humane League inspired: UNITE. AGIR. Mudar.) */}
+          {/* 7. Frontline Activism Impact Block */}
           <HumaneImpactSection
             currentLang={currentLang}
             onOpenVolunteer={() => setVolunteerModalOpen(true)}
           />
 
-          {/* 8. Featured Projects Stacked Cards */}
+          {/* 8. Featured Projects Cards */}
           <ProjectsCards
+            currentLang={currentLang}
             onOpenDonate={handleOpenDonate}
           />
 
-          {/* 9. Interactive Real Leaflet Map (Ancrage Géographique) */}
-          <InteractiveMap />
+          {/* 9. Interactive Real Leaflet Map */}
+          <InteractiveMap currentLang={currentLang} />
 
           {/* 10. Leadership & Governance Team */}
-          <TeamSection />
+          <TeamSection currentLang={currentLang} />
 
-          {/* 11. Quem Nos Apoia (Institutions & Companies supporting the projects) */}
-          <PartnersMarquee onOpenPartnerModal={() => setPartnerModalOpen(true)} />
+          {/* 11. Quem Nos Apoia */}
+          <PartnersMarquee
+            currentLang={currentLang}
+            onOpenPartnerModal={() => setPartnerModalOpen(true)}
+          />
 
-          {/* 12. Aerial Support CTA Section (QUERO APOIAR with donation and "Outras Formas de Doar" button) */}
+          {/* 12. Aerial Support CTA Section */}
           <AerialSupportSection
             currentLang={currentLang}
             onOpenDonate={handleOpenDonate}
             onNavigateToOtherWays={() => handleNavigatePage('donate-ways')}
           />
 
-          {/* 13. News & Dispatches from the ground (Opens full dedicated page) */}
+          {/* 13. News & Dispatches from the ground */}
           <NewsSection
+            currentLang={currentLang}
             onSelectArticle={(id) => {
               setSelectedArticleId(id);
               setActivePage('news-detail');
@@ -182,7 +197,7 @@ export default function App() {
           />
 
           {/* 14. Contact & Newsletter */}
-          <ContactNewsletter />
+          <ContactNewsletter currentLang={currentLang} />
         </main>
       )}
 
@@ -196,11 +211,13 @@ export default function App() {
       <VolunteerModal
         isOpen={volunteerModalOpen}
         onClose={() => setVolunteerModalOpen(false)}
+        currentLang={currentLang}
       />
 
       <PartnerModal
         isOpen={partnerModalOpen}
         onClose={() => setPartnerModalOpen(false)}
+        currentLang={currentLang}
       />
     </div>
   );

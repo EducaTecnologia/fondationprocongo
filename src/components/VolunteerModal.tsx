@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
 import { X, CheckCircle2, Users } from 'lucide-react';
 import { Logo } from './Logo';
+import { getTranslation } from '../data/content';
+import { Language } from '../types';
 
 interface VolunteerModalProps {
   isOpen: boolean;
   onClose: () => void;
+  currentLang?: Language;
 }
 
-export const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
+export const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose, currentLang = 'fr' }) => {
   const [submitted, setSubmitted] = useState(false);
+  const t = getTranslation(currentLang).volunteerModal;
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     country: 'RDC',
-    area: 'Assainissement & Salubrité (Boma/Matadi)',
-    availability: 'Temps plein / Chantiers',
+    area: t.areaOptions[0] || 'Assainissement',
+    availability: t.availOptions[0] || 'Temps plein',
   });
 
   if (!isOpen) return null;
@@ -39,8 +44,8 @@ export const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose 
       <div className="relative w-full max-w-lg rounded-3xl bg-[#141B44] border border-white/20 p-6 sm:p-8 text-white shadow-2xl">
         <button
           onClick={handleClose}
-          className="absolute top-5 right-5 p-2 text-slate-400 hover:text-white rounded-full bg-white/10 transition-colors"
-          aria-label="Fermer"
+          className="absolute top-5 right-5 p-2 text-slate-400 hover:text-white rounded-full bg-white/10 transition-colors cursor-pointer"
+          aria-label={t.closeBtn}
         >
           <X className="w-5 h-5" />
         </button>
@@ -50,22 +55,22 @@ export const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose 
             <div className="text-center mb-6">
               <Logo variant="dark" size="sm" className="mb-3 inline-flex" />
               <h3 className="text-2xl font-extrabold font-display">
-                Devenir Bénévole Civique
+                {t.title}
               </h3>
               <p className="text-xs text-slate-300 mt-1">
-                Rejoignez nos brigades de terrain au Kongo-Central ou nos équipes de soutien international.
+                {t.sub}
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-[11px] font-bold uppercase text-slate-300 mb-1">
-                  Nom complet *
+                  {t.nameLabel}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Votre nom"
+                  placeholder={t.namePlaceholder}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white text-xs focus:outline-hidden focus:ring-2 focus:ring-[#F7C600]"
@@ -75,7 +80,7 @@ export const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-[11px] font-bold uppercase text-slate-300 mb-1">
-                    Adresse e-mail *
+                    {t.emailLabel}
                   </label>
                   <input
                     type="email"
@@ -88,7 +93,7 @@ export const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose 
                 </div>
                 <div>
                   <label className="block text-[11px] font-bold uppercase text-slate-300 mb-1">
-                    Téléphone / WhatsApp *
+                    {t.phoneLabel}
                   </label>
                   <input
                     type="tel"
@@ -103,46 +108,57 @@ export const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose 
 
               <div>
                 <label className="block text-[11px] font-bold uppercase text-slate-300 mb-1">
-                  Domaine de contribution souhaité *
+                  {t.areaLabel}
                 </label>
                 <select
                   value={formData.area}
                   onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0B1030] border border-white/20 text-white text-xs focus:outline-hidden focus:ring-2 focus:ring-[#F7C600]"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0F1635] border border-white/20 text-white text-xs focus:outline-hidden focus:ring-2 focus:ring-[#F7C600] cursor-pointer"
                 >
-                  <option value="Assainissement & Salubrité (Boma/Matadi)">Assainissement & Salubrité (Opération Boma Bunkete)</option>
-                  <option value="Santé & Soins médicaux">Santé communautaire & Secourisme</option>
-                  <option value="Agriculture & Distribution">Agriculture vivrière & Sécurité alimentaire</option>
-                  <option value="Communication & Traduction (À distance)">Plaidoyer, Médias & Traduction (Diaspora)</option>
-                  <option value="Ingénierie & Logistique">Logistique & Gestion de projet</option>
+                  {t.areaOptions.map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-bold uppercase text-slate-300 mb-1">
+                  {t.availLabel}
+                </label>
+                <select
+                  value={formData.availability}
+                  onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#0F1635] border border-white/20 text-white text-xs focus:outline-hidden focus:ring-2 focus:ring-[#F7C600] cursor-pointer"
+                >
+                  {t.availOptions.map((opt, i) => (
+                    <option key={i} value={opt}>{opt}</option>
+                  ))}
                 </select>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#D71920] hover:bg-[#b81218] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-2"
+                className="w-full mt-2 py-3 bg-[#D71920] hover:bg-[#b81218] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg"
               >
                 <Users className="w-4 h-4" />
-                <span>Soumettre ma candidature de bénévole</span>
+                <span>{t.submitBtn}</span>
               </button>
             </form>
           </div>
         ) : (
-          <div className="text-center py-6 space-y-4 animate-[fadeIn_0.3s_ease-out]">
-            <div className="w-14 h-14 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center mx-auto text-emerald-400">
+          <div className="text-center py-6 space-y-4">
+            <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h3 className="text-xl font-bold font-display">
-              Candidature bien reçue !
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Merci {formData.name} pour votre engagement en faveur du peuple congolais. Le coordinateur des volontaires de la Fondation Pro-Congo prendra contact avec vous sous 72h.
+            <h4 className="text-xl font-bold font-display">{t.successTitle}</h4>
+            <p className="text-xs text-slate-300 max-w-sm mx-auto">
+              {t.successDesc}
             </p>
             <button
               onClick={handleClose}
-              className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs uppercase font-bold tracking-wider"
+              className="mt-4 px-6 py-2.5 bg-white/20 hover:bg-white/30 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
             >
-              Fermer
+              {t.closeBtn}
             </button>
           </div>
         )}
