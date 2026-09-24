@@ -334,7 +334,7 @@ export const esTranslations: TranslationSchema = {
       {
         name: 'Joe Nyakeru',
         role: 'Presidente Nacional / CEO',
-        location: 'Sede Nacional — RDC y Atlanta',
+        location: 'Sede Nacional — República Democrática del Congo',
         image: leaderPortraitImg,
         bio: 'Líder visionario congoleño dedicado durante más de 15 años al servicio de las comunidades vulnerables. Portavoz incansable de la dignidad humana, la renovación cívica y la salubridad urbana en toda la República.',
         quote: 'Nuestra misión sagrada es llevar una transformación concreta, visible y medible al día a día de cada familia congoleña.'
@@ -533,7 +533,7 @@ export const esTranslations: TranslationSchema = {
   contact: {
     sectionKicker: 'CONTACTO Y SEDES',
     title: 'Mantengámonos en contacto directo',
-    sub: 'Nuestros equipos en la República Democrática del Congo y en Atlanta están a su completa disposición para dudas, colaboraciones o alianzas.',
+    sub: 'Nuestros equipos en la República Democrática del Congo están a su completa disposición para dudas, colaboraciones o alianzas.',
     hqDrcTitle: 'Sede Nacional — RDC',
     hqDrcOrg: 'Fundación Pro-Congo — Dirección Provincial',
     hqDrcLoc: 'Boma y Matadi, Provincia de Kongo-Central, República Democrática del Congo',

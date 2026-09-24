@@ -334,7 +334,7 @@ export const zhTranslations: TranslationSchema = {
       {
         name: '乔·尼亚凯鲁（Joe Nyakeru）',
         role: '全国总裁 / 首席执行官 (CEO)',
-        location: '全国总部 — 刚果（金）及亚特兰大',
+        location: '全国总部 — 刚果民主共和国',
         image: leaderPortraitImg,
         bio: '富有远见的刚果领袖，深耕弱势群体公益逾15载。在全国范围内坚持不懈地倡导人类尊严、公民复兴与城市宜居生态建设。',
         quote: '我们神圣的使命，是为每一个刚果普通家庭的日常切实带来肉眼可见、可衡量的真实改善。'
@@ -533,7 +533,7 @@ export const zhTranslations: TranslationSchema = {
   contact: {
     sectionKicker: '联系方式与前线据点',
     title: '与我们直接取得联系',
-    sub: '我们在刚果民主共和国本土及美国亚特兰大的团队随时为您答疑解惑、探讨合作与支持。',
+    sub: '我们在刚果民主共和国本土的团队随时为您答疑解惑、探讨合作与支持。',
     hqDrcTitle: '全国总部 — 刚果（金）',
     hqDrcOrg: 'Pro-Congo 基金会 — 省执行局',
     hqDrcLoc: '刚果民主共和国 · 中刚果省 · 博马与马塔迪',

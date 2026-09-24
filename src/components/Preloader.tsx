@@ -175,7 +175,7 @@ export const Preloader: React.FC<PreloaderProps> = ({ currentLang = 'fr', onFini
         </div>
 
         <p className="text-[11px] text-slate-400 tracking-wide">
-          Kinshasa • Boma • Matadi • Bas-Fleuve • Atlanta
+          Kinshasa • Boma • Matadi • Bas-Fleuve
         </p>
       </footer>
 

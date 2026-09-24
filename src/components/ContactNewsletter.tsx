@@ -49,9 +49,8 @@ export const ContactNewsletter: React.FC<ContactNewsletterProps> = ({ currentLan
               </p>
             </div>
 
-            {/* 2 Sedes Cards */}
-            <div className="space-y-4">
-              {/* HQ DRC */}
+            {/* Sede Card DRC */}
+            <div>
               <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
                 <div className="flex items-center gap-2 text-[#D71920] text-xs font-bold uppercase tracking-wider">
                   <MapPin className="w-4 h-4" />
@@ -60,18 +59,6 @@ export const ContactNewsletter: React.FC<ContactNewsletterProps> = ({ currentLan
                 <h3 className="text-base font-bold text-slate-900 font-display">{t.hqDrcOrg}</h3>
                 <p className="text-xs sm:text-sm text-slate-600">
                   {t.hqDrcLoc}
-                </p>
-              </div>
-
-              {/* Office USA */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                <div className="flex items-center gap-2 text-[#1B2A6B] text-xs font-bold uppercase tracking-wider">
-                  <Globe className="w-4 h-4" />
-                  <span>{t.intlUsaTitle}</span>
-                </div>
-                <h3 className="text-base font-bold text-slate-900 font-display">{t.intlUsaOrg}</h3>
-                <p className="text-xs sm:text-sm text-slate-600">
-                  {t.intlUsaLoc}
                 </p>
               </div>
             </div>
