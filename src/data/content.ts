@@ -5,10 +5,9 @@ import projectAgriImg from '../assets/images/project_agriculture_1790205970258.j
 import leaderPortraitImg from '../assets/images/joe_nyakeru_executive_1790216333026.jpg';
 import communityActionImg from '../assets/images/community_action_frontline_1790212542285.jpg';
 import aidDistributionAerialImg from '../assets/images/aid_distribution_aerial_1790212557132.jpg';
-import felixTshimangaImg from '../assets/images/felix_tshimanga_portrait_1790214209611.jpg';
-import ninaTshimangaImg from '../assets/images/nina_tshimanga_portrait_1790214221561.jpg';
-import rebeccaMulongoImg from '../assets/images/rebecca_mulongo_portrait_1790214232662.jpg';
-import doudouNzangaImg from '../assets/images/doudou_nzanga_executive_1790216344257.jpg';
+import placideBaundjaImg from '../assets/images/placide_baundja_portrait.jpg';
+import maxDeCastroImg from '../assets/images/max_de_castro_portrait.jpg';
+import sandroMonteiroImg from '../assets/images/sandro_monteiro_portrait.jpg';
 import fpcOfficialLogoImg from '../assets/images/fpc_official_logo_1790217896245.jpg';
 import fpcLogoTransparentImg from '../assets/images/fpc_logo_transparent.png';
 
@@ -124,42 +123,34 @@ export const TEAM_MEMBERS: TeamMember[] = [
   {
     name: 'Joe Nyakeru',
     role: 'Président National / CEO',
-    location: 'Siège National — RDC',
+    location: 'Siège National — RDC & Atlanta',
     image: leaderPortraitImg,
     bio: 'Leader visionnaire congolais engagé depuis plus de 15 ans au service des communautés défavorisées. Porte-voix inlassable de la dignité humaine, du renouveau civique et de la salubrité urbaine à travers toute la République.',
     quote: 'Notre mission sacrée est d’apporter une transformation concrète, visible et mesurable dans le quotidien de chaque famille congolaise.'
   },
   {
-    name: 'Dr. Felix Tshimanga',
+    name: 'Placide Baundja Ikuba',
     role: 'Chief Operating Officer',
-    location: 'Atlanta, USA',
-    image: felixTshimangaImg,
-    bio: 'Médecin spécialiste et gestionnaire chevronné des politiques de santé publique internationale. Supervise l’optimisation des chaînes d’approvisionnement médical, la logistique transatlantique et les standards d’intervention humanitaire.',
-    quote: 'Chaque soin apporté, chaque canal assaini sauve des vies humaines de manière mesurable.'
+    location: 'Direction Opérationnelle — Kinshasa & International',
+    image: placideBaundjaImg,
+    bio: 'Stratège chevronné en gestion des opérations humanitaires et déploiement logistique sur le terrain. Supervise la chaîne d’approvisionnement, l’efficacité opérationnelle des programmes en RDC et la coordination multisectorielle des interventions prioritaires.',
+    quote: 'L’excellence opérationnelle et la rigueur sur le terrain sont les clés pour transformer durablement la vie de nos concitoyens.'
   },
   {
-    name: 'Nina Tshimanga',
+    name: 'Max de Castro',
     role: 'Chief Marketing Officer',
-    location: 'Atlanta, USA',
-    image: ninaTshimangaImg,
-    bio: 'Stratège en communication institutionnelle et relations d’impact global. Orchestre la visibilité internationale de la fondation, la mobilisation philanthropique et le dialogue avec la diaspora africaine.',
-    quote: 'Le Congo regorge de talents et de force vitale : notre rôle est de canaliser cette énergie pour le bien commun.'
+    location: 'Direction Internationale & Diaspora',
+    image: maxDeCastroImg,
+    bio: 'Stratège en marketing d’impact, communication institutionnelle et relations philanthropiques mondiales. Orchestre le rayonnement international de la Fondation Pro-Congo, la mobilisation des ressources stratégiques et les alliances pérennes avec la diaspora et les partenaires mondiaux.',
+    quote: 'Faire rayonner la force, la résilience et l’espérance du peuple congolais auprès des partenaires du monde entier.'
   },
   {
-    name: 'Rebecca Mulongo',
-    role: 'Public Relations Officer',
-    location: 'Atlanta, USA',
-    image: rebeccaMulongoImg,
-    bio: 'Experte en relations publiques et partenariats institutionnels transatlantiques. Coordonne le lien avec les institutions de développement, les fondations partenaires et les donateurs majeurs.',
-    quote: 'Bâtir des passerelles pérennes entre la diaspora mondiale et les initiatives citoyennes au pays.'
-  },
-  {
-    name: 'Doudou Nzanga',
-    role: 'Directeur Provincial',
-    location: 'Direction Provinciale — Kongo-Central, RDC',
-    image: doudouNzangaImg,
-    bio: 'Homme de terrain incontournable, fin connaisseur des réalités coutumières et urbaines du Kongo-Central. Dirige le déploiement opérationnel des équipes civiques à Boma, Matadi et dans le Bas-Fleuve.',
-    quote: 'Sur le terrain, chaque heure de travail compte pour redonner la fierté à nos quartiers.'
+    name: 'Sandro Monteiro',
+    role: 'Chief Sustainability Officer',
+    location: 'Pôle International — Brésil, Japon & Espagne',
+    image: sandroMonteiroImg,
+    bio: 'Spécialiste de haut niveau en durabilité environnementale, responsabilité éco-sociale et transition écologique. Fort d’une vaste expérience internationale jalonnée de réalisations d’envergure au Brésil, au Japon et en Espagne, il pilote les stratégies de résilience climatique, d’assainissement régénératif et de valorisation des ressources durables.',
+    quote: 'L’intégration des meilleures innovations de durabilité du Brésil, du Japon et d’Espagne au service d’un avenir prospère et écologique pour le peuple congolais.'
   }
 ];
 
@@ -268,7 +259,7 @@ export const NEWS_DATA: NewsItem[] = [
     excerpt: 'Face aux carences nutritionnelles qui frappent les zones enclavées, nos équipes médicales ont déployé des unités de dépistage précoce et d’assistance alimentaire.',
     content: [
       'Durant deux semaines de tournée intensive, les brigades de santé de la Fondation ont sillonné sept villages du Bas-Fleuve, administrant des compléments de vitamine A et des farines enrichies locales.',
-      'Le Dr. Felix Tshimanga, COO, a salué le dévouement des infirmiers volontaires : « La santé d’un enfant est la racine même de l’avenir d’une nation ».'
+      'Placide Baundja Ikuba, Chief Operating Officer, a salué le dévouement des équipes de terrain : « L’action humanitaire de proximité et la rigueur d’exécution sont la clé pour bâtir un avenir digne pour les enfants de notre pays ».'
     ],
     image: projectAgriImg
   }
