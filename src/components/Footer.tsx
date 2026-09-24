@@ -25,20 +25,22 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#2A3EB1] via-[#D71920] to-[#F7C600]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/10">
-          {/* Col 1: Brand & Slogan (Span 4) */}
-          <div className="lg:col-span-4 space-y-4">
-            <Logo variant="dark" size="md" />
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
-              {tFoot.desc}
-            </p>
-            <div className="pt-2 flex items-center gap-2 text-xs text-[#F7C600] font-semibold">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>{tFoot.certText}</span>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 pb-12 border-b border-white/10">
+          {/* Col 1: Brand & Slogan */}
+          <div className="md:col-span-12 lg:col-span-4 space-y-4 md:space-y-0 md:flex md:items-start md:justify-between md:gap-8 lg:block lg:space-y-4">
+            <div className="space-y-3 max-w-sm md:max-w-md lg:max-w-sm">
+              <Logo variant="dark" size="md" />
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                {tFoot.desc}
+              </p>
+              <div className="pt-1 flex items-center gap-2 text-xs text-[#F7C600] font-semibold">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>{tFoot.certText}</span>
+              </div>
             </div>
 
             {/* Social Media Links */}
-            <div className="pt-3">
+            <div className="pt-3 md:pt-1 lg:pt-3">
               <span className="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-3">
                 {tFoot.followUs}
               </span>
@@ -104,54 +106,57 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenDonate }) => 
             </div>
           </div>
 
-          {/* Col 2: Navigation Links (Span 3) */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              {tFoot.quickLinksTitle}
-            </h4>
-            <ul className="space-y-2 text-xs sm:text-sm">
-              <li>
-                <a href="#accueil" className="hover:text-white transition-colors">{tNav.home}</a>
-              </li>
-              <li>
-                <a href="#apropos" className="hover:text-white transition-colors">{tNav.about}</a>
-              </li>
-              <li>
-                <a href="#programmes" className="hover:text-white transition-colors">{tNav.programs}</a>
-              </li>
-              <li>
-                <a href="#projets" className="hover:text-white transition-colors">{tNav.projects}</a>
-              </li>
-              <li>
-                <a href="#territoire" className="hover:text-white transition-colors">{tNav.locations}</a>
-              </li>
-              <li>
-                <a href="#equipe" className="hover:text-white transition-colors">{tNav.team}</a>
-              </li>
-              <li>
-                <a href="#actualites" className="hover:text-white transition-colors">{tNav.news}</a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 3: Programs & Pillars (Span 3) */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-white">
-              {tFoot.programsTitle}
-            </h4>
-            <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
-              {tPillars.map((p) => (
-                <li key={p.id}>
-                  <a href="#programmes" className="hover:text-white transition-colors">
-                    {p.title}
-                  </a>
+          {/* Menus: Navigation Links + Programs & Pillars (Side-by-side on mobile, tablet & desktop) */}
+          <div className="md:col-span-7 lg:col-span-6 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8">
+            {/* Col 2: Navigation Links */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-white">
+                {tFoot.quickLinksTitle}
+              </h4>
+              <ul className="space-y-2 text-xs sm:text-sm">
+                <li>
+                  <a href="#accueil" className="hover:text-white transition-colors block py-0.5 leading-snug">{tNav.home}</a>
                 </li>
-              ))}
-            </ul>
+                <li>
+                  <a href="#apropos" className="hover:text-white transition-colors block py-0.5 leading-snug">{tNav.about}</a>
+                </li>
+                <li>
+                  <a href="#programmes" className="hover:text-white transition-colors block py-0.5 leading-snug">{tNav.programs}</a>
+                </li>
+                <li>
+                  <a href="#projets" className="hover:text-white transition-colors block py-0.5 leading-snug">{tNav.projects}</a>
+                </li>
+                <li>
+                  <a href="#territoire" className="hover:text-white transition-colors block py-0.5 leading-snug">{tNav.locations}</a>
+                </li>
+                <li>
+                  <a href="#equipe" className="hover:text-white transition-colors block py-0.5 leading-snug">{tNav.team}</a>
+                </li>
+                <li>
+                  <a href="#actualites" className="hover:text-white transition-colors block py-0.5 leading-snug">{tNav.news}</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 3: Programs & Pillars */}
+            <div className="space-y-3">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-white">
+                {tFoot.programsTitle}
+              </h4>
+              <ul className="space-y-2 text-xs sm:text-sm text-slate-400">
+                {tPillars.map((p) => (
+                  <li key={p.id}>
+                    <a href="#programmes" className="hover:text-white transition-colors block py-0.5 leading-snug">
+                      {p.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          {/* Col 4: Quick Action (Span 2) */}
-          <div className="lg:col-span-2 space-y-4">
+          {/* Col 4: Quick Action (Span 2 on lg, Span 5 on md) */}
+          <div className="md:col-span-5 lg:col-span-2 space-y-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-white">
               {tFoot.donateBoxTitle}
             </h4>
