@@ -89,10 +89,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-3 sm:py-4 ${
-          isScrolled
-            ? 'bg-slate-950/85 backdrop-blur-md border-b border-white/10 shadow-lg'
-            : 'bg-transparent border-transparent'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-2.5 sm:py-3.5 ${
+          mobileMenuOpen
+            ? 'bg-[#0A1938] border-b border-white/15 shadow-xl'
+            : isScrolled
+            ? 'bg-[#071026]/95 backdrop-blur-md border-b border-white/10 shadow-lg'
+            : 'bg-[#0A1938]/95 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none border-b border-white/10 lg:border-transparent shadow-md lg:shadow-none'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,7 +149,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 <button
                   onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border border-white/25 bg-black/35 hover:bg-black/55 text-white backdrop-blur-md transition-all cursor-pointer shadow-xs"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border border-white/25 bg-black/40 hover:bg-black/60 text-white backdrop-blur-md transition-all cursor-pointer shadow-xs"
                   aria-expanded={langDropdownOpen}
                   aria-label="Sélectionner la langue"
                 >
@@ -206,9 +208,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* Mobile Menu Toggle Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-lg text-white hover:bg-white/20 transition-colors cursor-pointer"
+                className={`lg:hidden p-2 rounded-xl transition-all cursor-pointer border ${
+                  mobileMenuOpen
+                    ? 'bg-white/20 text-white border-white/30 shadow-inner'
+                    : 'bg-white/10 text-white hover:bg-white/20 border-white/20'
+                }`}
                 aria-expanded={mobileMenuOpen}
-                aria-label="Ouvrir le menu de navigation"
+                aria-label={mobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu de navigation'}
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -217,52 +223,71 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer with Blue Palette Background */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-30 bg-white/98 backdrop-blur-xl lg:hidden pt-20 px-6 pb-8 flex flex-col justify-between overflow-y-auto text-slate-900 shadow-2xl"
+          className="fixed inset-0 z-30 bg-[#0A1938] bg-gradient-to-b from-[#071330] via-[#0A1938] to-[#081535] backdrop-blur-2xl lg:hidden pt-20 px-5 sm:px-8 pb-8 flex flex-col justify-between overflow-y-auto text-white shadow-2xl animate-[fadeIn_0.2s_ease-out]"
           role="dialog"
           aria-modal="true"
         >
-          <div className="space-y-2 pt-4">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleItemClick(item)}
-                className="w-full text-left text-base font-bold py-3 px-4 rounded-xl text-slate-800 hover:bg-slate-100 transition-colors flex items-center justify-between"
-              >
-                <span>{item.label}</span>
-                {item.isPage && (
-                  <span className="text-[10px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-bold">
-                    Page
+          <div className="space-y-1.5 pt-3">
+            {navItems.map((item) => {
+              const isCurrentActive =
+                (item.isPage && activePage === item.pageId) ||
+                (!item.isPage && activePage === 'home' && item.id === 'accueil');
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleItemClick(item)}
+                  className={`w-full text-left text-base font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-between cursor-pointer ${
+                    isCurrentActive
+                      ? 'bg-white/15 text-[#F7C600] border border-white/20 shadow-xs'
+                      : 'text-white/95 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  <span className="flex items-center gap-2.5">
+                    {isCurrentActive && <span className="w-2 h-2 rounded-full bg-[#F7C600]" />}
+                    <span>{item.label}</span>
                   </span>
-                )}
-              </button>
-            ))}
+                  {item.isPage && (
+                    <span className="text-[11px] bg-[#D71920]/25 text-[#FF858A] border border-[#D71920]/50 px-2.5 py-0.5 rounded-full font-extrabold uppercase tracking-wider">
+                      Page
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="pt-6 border-t border-slate-200 space-y-4">
+          <div className="pt-6 border-t border-white/15 space-y-4">
             {/* Mobile Language Switcher */}
             <div>
-              <div className="text-xs font-bold uppercase text-slate-500 mb-2">Langue / Language</div>
+              <div className="text-xs font-bold uppercase text-slate-300 tracking-wider mb-2.5 flex items-center justify-between">
+                <span>Langue / Language</span>
+                <span className="text-[10px] text-slate-400">Sélection: {currentLangMeta.name}</span>
+              </div>
               <div className="grid grid-cols-3 gap-2">
-                {LANGUAGES_META.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      onSelectLang(lang.code);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center justify-center gap-2 py-2 px-2.5 rounded-xl border text-xs font-bold transition-colors ${
-                      currentLang === lang.code
-                        ? 'bg-[#1B2A6B] text-white border-[#1B2A6B]'
-                        : 'bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200'
-                    }`}
-                  >
-                    <FlagIcon code={lang.code} className="w-4 h-3 shadow-xs" />
-                    <span>{lang.label}</span>
-                  </button>
-                ))}
+                {LANGUAGES_META.map((lang) => {
+                  const isSelected = currentLang === lang.code;
+                  return (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        onSelectLang(lang.code);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`flex items-center justify-center gap-2 py-2.5 px-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#2A3EB1] text-white border-white/40 ring-2 ring-[#F7C600] shadow-md'
+                          : 'bg-white/10 text-white/90 border-white/15 hover:bg-white/20 hover:text-white'
+                      }`}
+                    >
+                      <FlagIcon code={lang.code} className="w-4 h-3 shadow-xs" />
+                      <span>{lang.label}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -271,12 +296,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setMobileMenuOpen(false);
                 onOpenDonate();
               }}
-              className="w-full py-3.5 bg-[#D71920] hover:bg-[#b81218] text-white font-bold text-center uppercase tracking-wider rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-4 bg-[#D71920] hover:bg-[#b81218] active:scale-[0.98] text-white font-extrabold text-sm text-center uppercase tracking-wider rounded-xl shadow-[0_4px_20px_rgba(215,25,32,0.5)] flex items-center justify-center gap-2.5 cursor-pointer transition-all border border-red-400/30"
             >
-              <Heart className="w-4 h-4 fill-white" />
+              <Heart className="w-5 h-5 fill-white text-white" />
               <span>{t.donate}</span>
             </button>
-            <div className="text-center text-xs text-slate-500">
+            <div className="text-center text-xs text-slate-300 font-medium pt-1">
               Fondation Pro-Congo — En faveur du peuple Congolais
             </div>
           </div>
