@@ -1,0 +1,6 @@
+{
+  "name": "Fondation Pro-Congo",
+  "description": "Site institutionnel premium de la Fondation Pro-Congo — En faveur du peuple Congolais. Assistance sociale, santé, alimentation, assainissement et éducation en RDC.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
